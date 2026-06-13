@@ -65,6 +65,16 @@ app.whenReady().then(() => {
   tray.setToolTip("QuickPlay");
   tray.setContextMenu(contextMenu);
 
+  //toggle the window
+    tray.on("click", () => {
+    if (mainWindow.isVisible()) {
+      mainWindow.hide();
+    } else {
+      mainWindow.show();
+      mainWindow.focus();
+    }
+  });
+
   tray.on("double-click", () => {
     if (mainWindow) {
       mainWindow.show();
