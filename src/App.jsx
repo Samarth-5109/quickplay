@@ -1,41 +1,36 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { Card } from './components/ui/card'
-import { PlayCircle, SkipBack, SkipForward } from 'lucide-react'
+import { PauseCircle, PlayCircle, SkipBack, SkipForward } from 'lucide-react'
+import { mockTracks } from './data/mockTracks'
 
 function App() {
   const [track, setTrack] = useState({
     title: "Believer",
     artist: "Imagine Dragons",
     source: "YouTube Music",
-    artwork: "https://...",
+    artwork: "https://picsum.photos/300",
     isPlaying: true,
   })
 
-  useEffect(()=>{
-    const songs = [
-      {
-        title: "Believer",
-        artist: "Imagine Dragons",
-        source: "YouTube Music",
-      },
-      {
-        title: "Numb",
-        artist: "Linkin Park",
-        source: "YouTube Music",
-      },
-    ];
-    
-    let index=0;
-    const interval= setInterval(()=>{
-      setTrack({
-        ...songs[index],
-        isPlaying:true
-      })
-      index=(index+1)%songs.length
-    }, 5000)
-    return ()=> clearInterval(interval)
-  },[])
+  useEffect(() => {
+    let index = 0;
+  
+    const interval = setInterval(() => {
+      setTrack(mockTracks[index]);
+  
+      index = (index + 1) % mockTracks.length;
+    }, 5000);
+  
+    return () => clearInterval(interval);
+  }, []);
+
+  const togglePlayback=()=>{
+    setTrack((prev)=>({
+      ...prev,
+      isPlaying: !prev.isPlaying
+    }))
+  }
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-zinc-950 p-4'>
@@ -53,8 +48,10 @@ function App() {
           <button className='text-zinc-300 hover:text-white'>
             <SkipBack size={24} />
           </button>
-          <button className='text-white hover:scale-105 transition-transform'>
-            <PlayCircle size={42} />
+          <button
+            onClick={togglePlayback}
+            className='text-white hover:scale-105 transition-transform'>
+            {track.isPlaying?(<PauseCircle size={42}/>):(<PlayCircle size={42}/>)}
           </button>
           <button className='text-zinc-300 hover:text-white'>
             <SkipForward size={24} />
