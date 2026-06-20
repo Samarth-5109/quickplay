@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getCurrentTrack,
   getNextTrack,
@@ -7,6 +7,22 @@ import {
 
 export const useMediaPlayer = () => {
   const [track, setTrack] = useState(getCurrentTrack());
+
+  useEffect(() => {
+    if (!track.isPlaying) return;
+  
+    const interval = setInterval(() => {
+      setTrack((prev) => ({
+        ...prev,
+        currentTime: Math.min(
+          prev.currentTime + 1,
+          prev.duration
+        ),
+      }));
+    }, 1000);
+  
+    return () => clearInterval(interval);
+  }, [track.isPlaying]);
 
   const handleNext = () => {
     setTrack(getNextTrack());
@@ -23,10 +39,21 @@ export const useMediaPlayer = () => {
     }));
   };
 
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+  
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const progress = (track.currentTime / track.duration) * 100;
+
   return {
     track,
     handleNext,
     handlePrevious,
     togglePlayback,
+    formatTime,
+    progress,
   };
 };

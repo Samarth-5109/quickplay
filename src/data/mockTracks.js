@@ -5,6 +5,8 @@ export const mockTracks = [
       source: "YouTube Music",
       isPlaying: true,
       artwork: "https://picsum.photos/300?1",
+      currentTime: 83,
+      duration: 225,
     },
     {
       title: "Numb",
@@ -12,6 +14,8 @@ export const mockTracks = [
       source: "YouTube Music",
       isPlaying: true,
       artwork: "https://picsum.photos/300?2",
+      currentTime: 33,
+      duration: 225,
     },
     {
       title: "Thunder",
@@ -19,5 +23,7 @@ export const mockTracks = [
       source: "YouTube Music",
       isPlaying: true,
       artwork: "https://picsum.photos/300?3",
+      currentTime: 53,
+      duration: 225,
     },
   ];
